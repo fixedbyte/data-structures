@@ -17,6 +17,8 @@ typedef struct Linkedlist {
     int (*get_position)(struct Linkedlist *, void *);
     void (*empty)(struct Linkedlist *);
     void (*remove_for)(struct Linkedlist *, void *);
+    void (*remove_first)(struct Linkedlist *);
+    void (*remove_last)(struct Linkedlist *);
     void (*remove_at)(struct Linkedlist *, int);
     void (*print)(struct Linkedlist *);
 } Linkedlist;
@@ -30,6 +32,8 @@ Node *get_node(struct Linkedlist *, void *);
 int get_position(struct Linkedlist *, void *);
 void empty(struct Linkedlist *);
 void remove_for(struct Linkedlist *, void *);
+void remove_first(struct Linkedlist *);
+void remove_last(struct Linkedlist *);
 void remove_at(struct Linkedlist *, int);
 void print(struct Linkedlist *);
 

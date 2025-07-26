@@ -1,6 +1,7 @@
 #include "linkedlist.h"
 #include "node.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 Linkedlist *linkedlistz() {
     Linkedlist *thiz = (Linkedlist *) malloc(sizeof(Linkedlist));
@@ -13,6 +14,9 @@ Linkedlist *linkedlistz() {
     thiz->add_first = add_first;
     thiz->get_node = get_node;
     thiz->print = print;
+    thiz->remove_at = remove_at;
+    thiz->remove_last = remove_last;
+    thiz->remove_first = remove_first;
 
     return thiz;
 }
@@ -99,4 +103,56 @@ void print(struct Linkedlist *l) {
             printf("NULL\n");
         }
     }
+}
+
+void empty(Linkedlist *l) {
+    
+}
+
+void remove_for(Linkedlist *l, void *el) {
+
+}
+
+void remove_first(Linkedlist *l) {
+    remove_at(l, 1);
+}
+
+void remove_last(Linkedlist *l) {
+    remove_at(l, l->size(l));
+}
+
+void remove_at(Linkedlist *l, int pos) {
+    if (l->l_size == 0 || pos <= 0 || pos > l->size(l)) {
+        return;
+    }
+
+    if (l->l_size == 1) {
+        free(l->head);
+        l->head = NULL;
+        l->l_size--;
+        return;
+    }
+
+    Node *pivot = l->head;
+
+    if (pos == 1) {
+        l->head = pivot->next;
+        free(pivot);
+    } else {
+        Node *prev = NULL;
+
+        for (int i = 1; i < l->size(l); i++) {
+            if (i == pos - 1) {
+                prev = pivot->next;
+                pivot->next = pivot->next->next;
+                break;
+            }
+
+            pivot = pivot->next;
+        }
+
+        free(prev);
+    }
+
+    l->l_size--;
 }
