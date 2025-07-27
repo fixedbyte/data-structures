@@ -1,5 +1,6 @@
 #include "linkedlist.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
     Linkedlist *l1 = linkedlistz();
@@ -38,6 +39,14 @@ int main() {
     l1->print(l1);
     printf("remove_at end\n");
     l1->remove_at(l1, l1->size(l1));
+    l1->print(l1);
+    printf("remove_for\n");
+    int *num1 = (int *) (malloc(sizeof(int *)));
+    *num1 = 10;
+    l1->remove_for(l1, num1);
+    l1->print(l1);
+    printf("empty\n");
+    l1->empty(l1);
     l1->print(l1);
     return 0;
 }

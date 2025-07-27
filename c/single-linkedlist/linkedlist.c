@@ -17,6 +17,8 @@ Linkedlist *linkedlistz() {
     thiz->remove_at = remove_at;
     thiz->remove_last = remove_last;
     thiz->remove_first = remove_first;
+    thiz->remove_for = remove_for;
+    thiz->empty = empty;
 
     return thiz;
 }
@@ -35,7 +37,6 @@ Node *add_last(Linkedlist *l, void *el) {
         while (pivot->next != NULL) {
             pivot = pivot->next;
         }
-
         pivot->next = new_node;
     }
 
@@ -81,10 +82,9 @@ Node *get_node(Linkedlist *l, void *el) {
     Node *pivot = l->head;
 
     while (pivot != NULL) {
-        if (pivot->get_value(pivot) == el) {
+        if (*((int *)pivot->get_value(pivot)) == *((int *) el)) {
             return pivot;
         }
-
         pivot = pivot->next;
     }
 
@@ -92,25 +92,64 @@ Node *get_node(Linkedlist *l, void *el) {
 }
 
 void print(struct Linkedlist *l) {
-    Node *pivot = l->head;
     printf("Linkedlist (size: %d): \n", l->size(l));
+    printf("head -> ");
+    Node *pivot = l->head;
+
+    if (pivot == NULL) {
+        printf("NULL\n");
+        return;
+    }
 
     while (pivot != NULL) {
         void *val = pivot->value;
         printf("%d -> ", *(int *) val);
         pivot = pivot->next;
+
         if (pivot == NULL) {
             printf("NULL\n");
+            break;
         }
     }
 }
 
 void empty(Linkedlist *l) {
-    
+    if (l->size(l) == 0) {
+        return;
+    }
+
+    Node *pivot = l->head;
+
+    while (pivot != NULL) {
+        Node *temp = pivot;
+        pivot = pivot->next;
+        free(temp);
+        l->l_size--;
+    }
+
+    l->head = NULL;
 }
 
 void remove_for(Linkedlist *l, void *el) {
+    if (l->l_size == 0) {
+        return;
+    }
 
+    Node *pivot = l->head;
+    Node *prev = NULL;
+
+    while (pivot != NULL) {
+        if (*((int *)pivot->get_value(pivot)) == *((int *)el)) {
+            prev->next = pivot->next;
+            Node *temp = pivot;
+            pivot = pivot->next;
+            free(temp);
+            l->l_size--;
+            continue;
+        }
+        prev = pivot;
+        pivot = pivot->next;
+    }
 }
 
 void remove_first(Linkedlist *l) {
